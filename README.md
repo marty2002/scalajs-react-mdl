@@ -1,2 +1,2 @@
 # scalajs-react-mdl
-react-mdl bindings fof scala.js
+react-mdl bindings for scala.js
