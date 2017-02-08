@@ -17,7 +17,9 @@ object Main extends js.JSApp {
   def render(): ReactNode = {
     <.div()(
       <.h4()("The Icon:"),
-      Icon(Icon.Props(name = "save", key = Some("save_icon")))
+      Icon(Icon.Props(name = "save", key = Some("save_icon"))),
+      <.h4()("The checkbox: "),
+      Checkbox("This is checkbox")
     )
   }
 

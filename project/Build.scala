@@ -10,9 +10,11 @@ object ScalaJSReactMdl {
     val scala = "2.11.8"
     val scalatest = "3.0.1"
     val htmlWebpackPlugin = "~2.26.0"
+    val copyWebpackPlugin = "~4.0.1"
     val htmlLoader = "~0.4.3"
     val react = "~15.4.2"
     val scalaJsReact = "0.1.0-SNAPSHOT"
+    val reactMdl = "^1.7.2"
   }
 
   object Dependencies {
@@ -23,7 +25,7 @@ object ScalaJSReactMdl {
     lazy val jsReact = Seq(
       "react" -> Versions.react,
       "react-dom" -> Versions.react,
-      "react-mdl" -> "^1.7.2"
+      "react-mdl" -> Versions.reactMdl
     )
   }
 
@@ -66,6 +68,7 @@ object ScalaJSReactMdl {
 
           npmDevDependencies in Compile ++= Seq(
             "html-webpack-plugin" -> Versions.htmlWebpackPlugin,
+            "copy-webpack-plugin" -> Versions.copyWebpackPlugin,
             "html-loader" -> Versions.htmlLoader
           ),
 
