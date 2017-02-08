@@ -8,10 +8,9 @@ import eldis.react.ReactNode
 
 import scalajs.js
 import eldis.react._
-import eldis.react.mdl.components
-import vdom.prefix_<^.{ <, _ }
 import org.scalajs.dom
 import eldis.react.mdl.components._
+import eldis.react.vdom.prefix_<^.<
 
 object Main extends js.JSApp {
 
@@ -34,7 +33,10 @@ object Main extends js.JSApp {
       <.h4()("The FABbuttons: "),
       FABButton("add"), FABButton("add", FABButton.Props(colored = Some(true), mini = Some(true))),
       <.h4()("The icon buttons: "),
-      IconButton("mood"), IconButton(IconButton.Props(icon = Some("mood"), colored = Some(true)))
+      IconButton("mood"), IconButton(IconButton.Props(icon = Some("mood"), colored = Some(true))),
+      <.h4()("The icon buttons: "),
+      Radio(label = "Radio 1", value = "value 1", groupName = "radio group 1", defaultChecked = Some(true)),
+      Radio(label = "Radio 2", value = "value 2", groupName = "radio group 1")
     )
   }
 
