@@ -14,10 +14,7 @@ import js.JSConverters._
 object Checkbox {
 
   @js.native
-  trait Props extends js.Any {
-    val className: Seq[String] = js.native
-    val key: Option[String] = js.native
-    val style: Option[js.Object] = js.native
+  trait Props extends ReactMDLCommonPropsJS {
     val label: js.UndefOr[String] = js.native
     val ripple: js.UndefOr[Boolean] = js.native
     val checked: Option[Boolean] = js.native
