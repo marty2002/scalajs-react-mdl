@@ -4,5 +4,4 @@
 package eldis.react.mdl
 
 private[mdl] object ReactMdl {
-
 }

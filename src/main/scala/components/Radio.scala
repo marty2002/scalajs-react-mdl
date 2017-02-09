@@ -7,8 +7,8 @@ package eldis.react.mdl.components
 import eldis.react._
 import eldis.react.mdl._
 
-import scala.scalajs.js
-import scala.scalajs.js.annotation.JSImport
+import scalajs.js
+import js.annotation.JSImport
 import js.JSConverters._
 
 object Radio {
