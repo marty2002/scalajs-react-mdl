@@ -33,7 +33,7 @@ object Button {
       accent: Option[Boolean] = None,
       primary: Option[Boolean] = None,
       disabled: Option[Boolean] = None,
-      onClick: Option[Unit => Unit] = None,
+      onClick: Option[() => Unit] = None,
       ripple: Option[Boolean] = None,
       title: Option[String] = None
     ) = js.Dynamic.literal(
@@ -59,22 +59,22 @@ object Button {
 }
 
 object FlatButton {
-  def apply(label: String, onClick: Option[Unit => Unit] = None, disabled: Option[Boolean] = None, title: Option[String] = None) =
+  def apply(label: String, onClick: Option[() => Unit] = None, disabled: Option[Boolean] = None, title: Option[String] = None) =
     Button.apply(label, Button.Props(raised = Some(false), disabled = disabled, onClick = onClick, title = title))
 }
 
 object RaisedButton {
-  def apply(label: String, onClick: Option[Unit => Unit] = None, disabled: Option[Boolean] = None, title: Option[String] = None) =
+  def apply(label: String, onClick: Option[() => Unit] = None, disabled: Option[Boolean] = None, title: Option[String] = None) =
     Button.apply(label, Button.Props(raised = Some(true), disabled = disabled, onClick = onClick, title = title))
 }
 
 object ColoredButton {
-  def apply(label: String, onClick: Option[Unit => Unit] = None, disabled: Option[Boolean] = None, title: Option[String] = None) =
+  def apply(label: String, onClick: Option[() => Unit] = None, disabled: Option[Boolean] = None, title: Option[String] = None) =
     Button.apply(label, Button.Props(colored = Some(true), disabled = disabled, onClick = onClick, title = title))
 }
 
 object AccentButton {
-  def apply(label: String, onClick: Option[Unit => Unit] = None, disabled: Option[Boolean] = None, title: Option[String] = None) =
+  def apply(label: String, onClick: Option[() => Unit] = None, disabled: Option[Boolean] = None, title: Option[String] = None) =
     Button.apply(label, Button.Props(accent = Some(true), disabled = disabled, onClick = onClick, title = title))
 }
 
@@ -99,7 +99,7 @@ object FABButton {
       ripple: Option[Boolean] = None,
       disabled: Option[Boolean] = None,
       mini: Option[Boolean] = None,
-      onClick: Option[Unit => Unit] = None,
+      onClick: Option[() => Unit] = None,
       title: Option[String] = None
     ) =
       js.Dynamic.literal(
@@ -120,7 +120,7 @@ object FABButton {
   object Component extends JSComponent[Props]
 
   def apply(icon: String, p: Props) = React.createElement(Component, p, Icon(Icon.Props(name = icon)))
-  def apply(icon: String, onClick: Option[Unit => Unit] = None, disabled: Option[Boolean] = None, ripple: Option[Boolean] = Some(true), title: Option[String] = None) =
+  def apply(icon: String, onClick: Option[() => Unit] = None, disabled: Option[Boolean] = None, ripple: Option[Boolean] = Some(true), title: Option[String] = None) =
     React.createElement(Component, Props(onClick = onClick, disabled = disabled, ripple = ripple, title = title), Icon(Icon.Props(name = icon)))
 }
 
@@ -149,7 +149,7 @@ object IconButton {
       disabled: Option[Boolean] = None,
       accent: Option[Boolean] = None,
       primary: Option[Boolean] = None,
-      onClick: Option[Unit => Unit] = None,
+      onClick: Option[() => Unit] = None,
       title: Option[String] = None
     ) =
       js.Dynamic.literal(
@@ -172,6 +172,6 @@ object IconButton {
   object Component extends JSComponent[Props]
 
   def apply(p: Props) = React.createElement(Component, p)
-  def apply(icon: String, onClick: Option[Unit => Unit] = None, disabled: Option[Boolean] = None, title: Option[String] = None) = React.createElement(Component, Props(icon = Some(icon), disabled = disabled, onClick = onClick, title = title))
+  def apply(icon: String, onClick: Option[() => Unit] = None, disabled: Option[Boolean] = None, title: Option[String] = None) = React.createElement(Component, Props(icon = Some(icon), disabled = disabled, onClick = onClick, title = title))
 }
 
