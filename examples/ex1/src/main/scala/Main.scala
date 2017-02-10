@@ -10,9 +10,8 @@ import scalajs.js
 import eldis.react._
 import org.scalajs.dom
 import eldis.react.mdl.components._
-import eldis.react.vdom._
-import eldis.react.vdom.prefix_<^.<
-
+import eldis.react.vdom.{ Style, attr, AttrValue }
+import vdom.prefix_<^.<
 import scala.scalajs.js.annotation.ScalaJSDefined
 
 object Main extends js.JSApp {
@@ -25,6 +24,12 @@ object Main extends js.JSApp {
     def createWelcome = List(
       <.div()("Select any item in a menu")
     )
+    def createLabels = List(
+      Label("This is label"),
+      <.br()(),
+      Label(Label.Props(label = "This is label with style", style = Some(Style(attr("backgroundColor") := AttrValue("red")).toJs)))
+    )
+
     def createIcons = List(
       Icon(Icon.Props(name = "save", key = Some("save_icon")))
     )
@@ -117,7 +122,8 @@ object Main extends js.JSApp {
       TestItem(14, "Time", () => createTimes),
       TestItem(15, "Integer", () => createIntegers),
       TestItem(16, "Float", () => createFloats),
-      TestItem(17, "Fraction", () => createFractions)
+      TestItem(17, "Fraction", () => createFractions),
+      TestItem(18, "Labels", () => createLabels)
     ))
 
     override def render(): ReactNode = {
@@ -153,5 +159,4 @@ object Main extends js.JSApp {
       dom.document.getElementById("root")
     )
   }
-
 }

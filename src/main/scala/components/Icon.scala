@@ -13,7 +13,7 @@ import eldis.react.mdl._
 object Icon {
   @js.native
   trait Props extends ReactMDLCommonPropsJS {
-    val name: js.UndefOr[String] = js.native
+    val name: String = js.native
   }
   object Props {
     def apply(
