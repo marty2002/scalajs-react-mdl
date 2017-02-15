@@ -12,7 +12,7 @@ import js.JSConverters._
 
 object Button {
   @js.native
-  trait Props extends ReactMDLCommonPropsJS {
+  trait Props extends CommonProps {
     val raised: js.UndefOr[Boolean] = js.native
     val colored: js.UndefOr[Boolean] = js.native
     val accent: js.UndefOr[Boolean] = js.native
@@ -81,7 +81,7 @@ object AccentButton {
 object FABButton {
 
   @js.native
-  trait Props extends ReactMDLCommonPropsJS {
+  trait Props extends CommonProps {
     val colored: js.UndefOr[Boolean] = js.native
     val ripple: js.UndefOr[Boolean] = js.native
     val disabled: js.UndefOr[Boolean] = js.native
@@ -127,7 +127,7 @@ object FABButton {
 object IconButton {
 
   @js.native
-  trait Props extends ReactMDLCommonPropsJS {
+  trait Props extends CommonProps {
     val name: js.UndefOr[String] = js.native
     val colored: js.UndefOr[Boolean] = js.native
     val ripple: js.UndefOr[Boolean] = js.native

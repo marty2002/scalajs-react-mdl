@@ -14,7 +14,7 @@ import js.JSConverters._
 object Card {
 
   @js.native
-  trait Props extends ReactMDLCommonPropsJS {
+  trait Props extends CommonProps {
     val shadow: js.UndefOr[Int] = js.native
   }
 
@@ -42,7 +42,7 @@ object Card {
 object CardTitle {
 
   @js.native
-  trait Props extends ReactMDLCommonPropsJS {
+  trait Props extends CommonProps {
     val expand: js.UndefOr[Boolean] = js.native
   }
 
@@ -70,7 +70,7 @@ object CardTitle {
 object CardActions {
 
   @js.native
-  trait Props extends ReactMDLCommonPropsJS {
+  trait Props extends CommonProps {
     val border: js.UndefOr[Boolean] = js.native
   }
 
@@ -106,14 +106,14 @@ object CardText {
       className = fillClassAttr(className).orUndefined,
       key = key.orUndefined,
       style = style.orUndefined
-    ).asInstanceOf[ReactMDLCommonPropsJS]
+    ).asInstanceOf[CommonProps]
   }
   @JSImport("react-mdl", "CardText")
   @js.native
-  object Component extends JSComponent[ReactMDLCommonPropsJS]
+  object Component extends JSComponent[CommonProps]
 
   def apply()(children: ReactNode*) = React.createElement(Component, Props(), children: _*)
-  def apply(props: ReactMDLCommonPropsJS)(children: ReactNode*) = React.createElement(Component, props, children: _*)
+  def apply(props: CommonProps)(children: ReactNode*) = React.createElement(Component, props, children: _*)
 }
 
 object CardMenu {
@@ -126,12 +126,12 @@ object CardMenu {
       className = fillClassAttr(className).orUndefined,
       key = key.orUndefined,
       style = style.orUndefined
-    ).asInstanceOf[ReactMDLCommonPropsJS]
+    ).asInstanceOf[CommonProps]
   }
   @JSImport("react-mdl", "CardMenu")
   @js.native
-  object Component extends JSComponent[ReactMDLCommonPropsJS]
+  object Component extends JSComponent[CommonProps]
 
   def apply()(children: ReactNode*) = React.createElement(Component, Props(), children: _*)
-  def apply(props: ReactMDLCommonPropsJS)(children: ReactNode*) = React.createElement(Component, props, children: _*)
+  def apply(props: CommonProps)(children: ReactNode*) = React.createElement(Component, props, children: _*)
 }

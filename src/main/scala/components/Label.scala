@@ -12,7 +12,7 @@ import vdom.prefix_<^._
 
 object Label {
   @js.native
-  trait Props extends ReactMDLCommonPropsJS {
+  trait Props extends CommonProps {
     val label: String = js.native
   }
   object Props {

@@ -14,7 +14,7 @@ import eldis.react.vdom._
 
 object Text {
   @js.native
-  trait Props extends ReactMDLCommonPropsJS {
+  trait Props extends CommonProps {
     val disabled: js.UndefOr[Boolean] = js.native
     val error: js.UndefOr[String] = js.native
     val expandable: js.UndefOr[Boolean] = js.native

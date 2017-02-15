@@ -6,6 +6,7 @@ package eldis.react.mdl.components
 
 import eldis.react._
 import eldis.react.mdl._
+import eldis.react.vdom._
 
 import scalajs.js
 import js.annotation.JSImport
@@ -14,7 +15,7 @@ import js.JSConverters._
 object Radio {
 
   @js.native
-  trait Props extends ReactMDLCommonPropsJS {
+  trait Props extends CommonProps {
     val name: String = js.native
     val value: String = js.native
     val disabled: js.UndefOr[Boolean] = js.native
@@ -26,7 +27,7 @@ object Radio {
   object Props {
     def apply(groupName: String, value: String, className: Seq[String] = Nil, key: Option[String] = None,
       style: Option[js.Object] = None, disabled: Option[Boolean] = None, ripple: Option[Boolean] = None,
-      onChange: Option[String => Unit] = None, defaultChecked: Option[Boolean] = None) = js.Dynamic.literal(
+      onChange: Option[ReactEventI => Unit] = None, defaultChecked: Option[Boolean] = None) = js.Dynamic.literal(
       name = groupName,
       value = value,
       className = fillClassAttr(className).orUndefined,
@@ -45,7 +46,7 @@ object Radio {
 
   def apply(props: Props, children: ReactNode*) = React.createElement(Component, props, children: _*)
 
-  def apply(label: String, groupName: String, value: String, onChange: Option[String => Unit] = None,
+  def apply(label: String, groupName: String, value: String, onChange: Option[ReactEventI => Unit] = None,
     defaultChecked: Option[Boolean] = None, disabled: Option[Boolean] = None) =
     React.createElement(
       Component,

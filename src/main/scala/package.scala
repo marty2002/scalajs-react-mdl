@@ -14,7 +14,7 @@ package object mdl {
     Dynamic.global.Object.assign(Dynamic.literal(), targetObject, propsObject)
 
   @js.native
-  trait ReactMDLCommonPropsJS extends js.Any {
+  trait CommonProps extends js.Any {
     val className: js.UndefOr[String] = js.native
     val key: js.UndefOr[String] = js.native
     val style: js.UndefOr[js.Object] = js.native

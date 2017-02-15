@@ -12,7 +12,7 @@ import eldis.react.mdl._
 
 object Icon {
   @js.native
-  trait Props extends ReactMDLCommonPropsJS {
+  trait Props extends CommonProps {
     val name: String = js.native
   }
   object Props {
