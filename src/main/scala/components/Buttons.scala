@@ -136,6 +136,7 @@ object IconButton {
     val primary: js.UndefOr[Boolean] = js.native
     val onClick: js.UndefOr[js.Function0[Unit]] = js.native
     val title: js.UndefOr[String] = js.native
+    val id: js.UndefOr[String] = js.native
   }
 
   object Props {
@@ -150,7 +151,8 @@ object IconButton {
       accent: Option[Boolean] = None,
       primary: Option[Boolean] = None,
       onClick: Option[() => Unit] = None,
-      title: Option[String] = None
+      title: Option[String] = None,
+      id: Option[String] = None
     ) =
       js.Dynamic.literal(
         className = fillClassAttr(className).orUndefined,
@@ -163,7 +165,8 @@ object IconButton {
         accent = accent.orUndefined,
         primary = primary.orUndefined,
         onClick = onClick.orUndefined,
-        title = title.orUndefined
+        title = title.orUndefined,
+        id = id.orUndefined
       ).asInstanceOf[Props]
   }
 

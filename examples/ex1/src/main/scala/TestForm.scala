@@ -27,6 +27,7 @@ class TestForm extends Component[Nothing]("TestForm") {
   def render() =
     <.div()(
       <.div(^.className := "form-row")(
+        <.div(^.className := "col-7-em")(Label("Checkbox:")),
         <.div(^.className := "margin")(
           Checkbox(
             Checkbox.Props(
@@ -38,6 +39,7 @@ class TestForm extends Component[Nothing]("TestForm") {
         )
       ),
       <.div(^.className := "form-row")(
+        <.div(^.className := "col-7-em")(Label("Radio:")),
         <.div(^.className := "margin")(
           Radio(
             "Radio 1",
@@ -87,24 +89,33 @@ class TestForm extends Component[Nothing]("TestForm") {
         <.div(^.className := "colRight")(TextArea(Text.Props(label = "", rows = Some(3), defaultValue = Some("123"), className = Seq("controlWidth"))))
       ),
       <.div(^.className := "form-row")(
-        <.div(^.className := "col-7-em")(Label("Integer")),
+        <.div(^.className := "col-7-em")(Label("Integer:")),
         <.div(^.className := "colRight")(Integer(Text.Props(label = "", defaultValue = Some("12"), className = Seq("controlWidth"))))
       ),
       <.div(^.className := "form-row")(
-        <.div(^.className := "col-7-em")(Label("Float")),
+        <.div(^.className := "col-7-em")(Label("Float:")),
         <.div(^.className := "colRight")(Float(Text.Props(label = "", defaultValue = Some("12.12"), className = Seq("controlWidth"))))
       ),
       <.div(^.className := "form-row")(
-        <.div(^.className := "col-7-em")(Label("Fraction")),
+        <.div(^.className := "col-7-em")(Label("Fraction:")),
         <.div(^.className := "colRight")(Fraction(Text.Props(label = "", defaultValue = Some("12/13"), className = Seq("controlWidth"))))
       ),
       <.div(^.className := "form-row")(
-        <.div(^.className := "col-7-em")(Label("Date")),
+        <.div(^.className := "col-7-em")(Label("Date:")),
         <.div(^.className := "colRight")(Date(Text.Props(label = "", defaultValue = Some("12.12.2012"), className = Seq("controlWidth"))))
       ),
       <.div(^.className := "form-row")(
-        <.div(^.className := "col-7-em")(Label("Time")),
+        <.div(^.className := "col-7-em")(Label("Time:")),
         <.div(^.className := "colRight")(Time(Text.Props(label = "", defaultValue = Some("12:12"), className = Seq("controlWidth"))))
+      ),
+      <.div(^.className := "form-row")(
+        <.div(^.className := "col-7-em")(Label("Menu:")),
+        <.div(^.className := "margin")(
+          Menu(id = "test", iconName = "more_vert", valign = Some("top"), align = Some("left"))(
+            MenuItem(label = "Some Action 1", onClick = Some(() => println("click1"))),
+            MenuItem(label = "Some Action 2", disabled = Some(true), onClick = Some(() => println("click2")))
+          )
+        )
       ),
       {
         showDialog()
