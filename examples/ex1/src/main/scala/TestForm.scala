@@ -6,7 +6,7 @@ package eldis.mdl.examples.ex1
 
 import eldis.react._
 import eldis.react.mdl.components._
-import eldis.react.mdl.components.Reference.RowGetters
+import eldis.react.mdl.components.RowGetters
 import eldis.react.vdom._
 import eldis.react.vdom.prefix_<^._
 import scalajs.js
@@ -26,16 +26,27 @@ class TestForm extends Component[Nothing]("TestForm") {
   case class State(dlgType: Option[DialogType])
   def initialState: State = State(None)
 
-  case class RefRow(id: String, value: String)
-  implicit val rg: RowGetters[RefRow, String] = new RowGetters[RefRow, String] {
+  case class RefRow(id: Int, value: String)
+
+  implicit val rg: RowGetters[RefRow, Int] = new RowGetters[RefRow, Int] {
     def getId(r: RefRow) = r.id
     def getDesc(r: RefRow) = r.value
+    override def rowToJsAny(r: RefRow): js.Any = js.Dynamic.literal(
+      id = r.id, value = r.value
+    ).asInstanceOf[js.Any]
   }
 
-  val ref = List(
-    RefRow("1", "Test 1"),
-    RefRow("2", "Test 2"),
-    RefRow("3", "Test 3")
+  val rows = List(
+    RefRow(1, "One"),
+    RefRow(2, "Two"),
+    RefRow(3, "Three"),
+    RefRow(4, "Four"),
+    RefRow(5, "Five"),
+    RefRow(6, "Six"),
+    RefRow(7, "Seven"),
+    RefRow(8, "Eight"),
+    RefRow(9, "Nine"),
+    RefRow(10, "Ten")
   )
 
   def render() =
@@ -123,8 +134,24 @@ class TestForm extends Component[Nothing]("TestForm") {
         <.div(^.className := "colRight")(Time(Text.Props(label = "", defaultValue = Some("12:12"), className = Seq("controlWidth"))))
       ),
       <.div(^.className := "form-row")(
+        <.div(^.className := "col-7-em")(Label("AutoComplete")),
+        <.div(^.className := "colRight")(
+          AutoComplete(AutoComplete.Props[RefRow, Int](
+            label = "Select value...",
+            items = rows,
+            dataIndex = "value",
+            valueIndex = "id"
+          ))
+        )
+      ),
+      <.div(^.className := "form-row")(
         <.div(^.className := "col-7-em")(Label("Reference")),
-        <.div(^.className := "colRight")(Reference(Reference.Props[RefRow, String](label = "Select value...", ref = ref)))
+        <.div(^.className := "colRight")(
+          Reference(Reference.Props[RefRow, Int](
+            label = "Select value...",
+            ref = rows
+          ))
+        )
       ),
       <.div(^.className := "form-row")(
         <.div(^.className := "col-7-em")(Label("Menu:")),
