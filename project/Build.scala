@@ -15,6 +15,9 @@ object ScalaJSReactMdl {
     val react = "~15.4.2"
     val scalaJsReact = "0.1.0-SNAPSHOT"
     val reactMdl = "^1.7.2"
+    val cssLoader = "^0.25.0"
+    val styleLoader = "^0.13.1"
+    val reactMdlExtra = "^1.4.3"
   }
 
   object Dependencies {
@@ -42,6 +45,7 @@ object ScalaJSReactMdl {
       _.configure(commonProject)
         .enablePlugins(ScalaJSPlugin)
         .settings(
+          scalaJSModuleKind := ModuleKind.CommonJSModule,
           requiresDOM in Test := true
         )
 
@@ -69,7 +73,10 @@ object ScalaJSReactMdl {
           npmDevDependencies in Compile ++= Seq(
             "html-webpack-plugin" -> Versions.htmlWebpackPlugin,
             "copy-webpack-plugin" -> Versions.copyWebpackPlugin,
-            "html-loader" -> Versions.htmlLoader
+            "html-loader" -> Versions.htmlLoader,
+            "react-mdl-extra" -> Versions.reactMdlExtra,
+            "style-loader" -> Versions.styleLoader,
+            "css-loader" -> Versions.cssLoader
           ),
 
           webpackConfigFile in fastOptJS := Some(baseDirectory.value / "config" / "webpack.config.js"),
