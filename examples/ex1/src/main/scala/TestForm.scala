@@ -9,8 +9,8 @@ import eldis.react.mdl.components._
 import eldis.react.mdl.components.Reference.RowGetters
 import eldis.react.vdom._
 import eldis.react.vdom.prefix_<^._
-
-import scala.scalajs.js.annotation.ScalaJSDefined
+import scalajs.js
+import js.annotation.ScalaJSDefined
 
 @ScalaJSDefined
 class TestForm extends Component[Nothing]("TestForm") {
@@ -26,16 +26,16 @@ class TestForm extends Component[Nothing]("TestForm") {
   case class State(dlgType: Option[DialogType])
   def initialState: State = State(None)
 
-  case class RefRow(id: Int, value: String)
-  implicit val rg: RowGetters[RefRow] = new RowGetters[RefRow] {
-    def id(r: RefRow) = r.id
-    def desc(r: RefRow) = r.value
+  case class RefRow(id: String, value: String)
+  implicit val rg: RowGetters[RefRow, String] = new RowGetters[RefRow, String] {
+    def getId(r: RefRow) = r.id
+    def getDesc(r: RefRow) = r.value
   }
 
   val ref = List(
-    RefRow(1, "Test 1"),
-    RefRow(2, "Test 2"),
-    RefRow(3, "Test 3")
+    RefRow("1", "Test 1"),
+    RefRow("2", "Test 2"),
+    RefRow("3", "Test 3")
   )
 
   def render() =
@@ -124,7 +124,7 @@ class TestForm extends Component[Nothing]("TestForm") {
       ),
       <.div(^.className := "form-row")(
         <.div(^.className := "col-7-em")(Label("Reference")),
-        <.div(^.className := "colRight")(Reference(Reference.Props[RefRow](label = "Select value...", ref = ref)))
+        <.div(^.className := "colRight")(Reference(Reference.Props[RefRow, String](label = "Select value...", ref = ref)))
       ),
       <.div(^.className := "form-row")(
         <.div(^.className := "col-7-em")(Label("Menu:")),

@@ -50,10 +50,10 @@ object Reference {
     }
 
     object Props {
-      def apply(
+      def apply[ID](
         label: String,
         value: Option[js.Any] = None,
-        onChange: Option[Int => Unit] = None,
+        onChange: Option[ID => Unit] = None,
         className: Seq[String] = Nil,
         key: Option[String] = None,
         style: Option[js.Object] = None
@@ -74,31 +74,32 @@ object Reference {
     def apply(props: Props)(ch: ReactNode*) = React.createElement(Component, props, ch: _*)
   }
 
-  trait RowGetters[R] {
-    def id(row: R): Int
-    def desc(row: R): String
+  trait RowGetters[R, ID] {
+    def getId(row: R): ID
+    def getDesc(row: R): String
+    def toJsAny(id: ID): js.Any = id.asInstanceOf[js.Any]
   }
 
-  case class Props[R](
+  case class Props[R, ID](
     className: Seq[String] = Nil,
     key: Option[String] = None,
     style: Option[js.Object] = None,
     label: String,
     ref: Seq[R],
-    value: Option[Int] = None,
-    onChange: Option[Int => Unit] = None
+    value: Option[ID] = None,
+    onChange: Option[ID => Unit] = None
   )
 
-  type PropsImpl[R] = (Props[R], RowGetters[R])
+  type PropsImpl[R, ID] = (Props[R, ID], RowGetters[R, ID])
 
   @ScalaJSDefined
-  class Reference[R] extends Component[PropsImpl[R]]("Reference") {
+  class Reference[R, ID] extends Component[PropsImpl[R, ID]]("Reference") {
 
-    case class State(value: Option[Int])
+    case class State(value: Option[ID])
 
     def initialState: State = State(None)
 
-    def onChange(e: Int): Unit = {
+    def onChange(e: ID): Unit = {
       this.props match {
         case (props, _) => {
           setState(state.copy(value = Some(e)))
@@ -109,19 +110,19 @@ object Reference {
 
     def render() = {
       val p = this.props
-      val ch = p._1.ref.map(row => Option(Option.Props(value = p._2.id(row)))(p._2.desc(row)))
+      val ch = p._1.ref.map(row => Option(Option.Props(value = p._2.toJsAny(p._2.getId(row))))(p._2.getDesc(row)))
 
       SelectField(
-        SelectField.Props(
+        SelectField.Props[ID](
           label = p._1.label,
-          value = p._1.value.orElse(state.value).map(v => v),
-          onChange = Some((e: Int) => onChange(e)),
+          value = p._1.value.orElse(state.value).map(v => p._2.toJsAny(v)),
+          onChange = Some((e: ID) => onChange(e)),
           className = p._1.className
         )
       )(ch: _*)
     }
   }
 
-  def apply[R](props: Props[R])(implicit rg: RowGetters[R]) =
-    new Reference[R]()((props, rg))
+  def apply[R, ID](props: Props[R, ID])(implicit rg: RowGetters[R, ID]) =
+    new Reference[R, ID]()((props, rg))
 }
