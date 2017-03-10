@@ -9,36 +9,44 @@ import js.annotation.{ JSImport, ScalaJSDefined }
 import eldis.react._
 import eldis.react.mdl._
 
-object Reference {
-  object Option {
+object Option {
 
-    @js.native
-    trait Props extends js.Any {
-      val key: js.Any = js.native
-      val value: js.Any = js.native
-      val onClick: js.UndefOr[js.Any] = js.native
-      val className: js.UndefOr[String] = js.native
-    }
-
-    object Props {
-      def apply(
-        value: js.Any,
-        className: Option[String] = None,
-        onClick: js.UndefOr[js.Any] = js.undefined
-      ) =
-        js.Dynamic.literal(
-          key = value, // it's not a typo. Yep, key = value
-          value = value,
-          onClick = onClick,
-          className = className.orUndefined
-        ).asInstanceOf[Props]
-    }
-
-    @JSImport("react-mdl-extra", "Option")
-    @js.native
-    object Component extends JSComponent[Props]
-    def apply(props: Props)(ch: ReactNode) = React.createElement(Component, props, ch)
+  @js.native
+  trait Props extends js.Any {
+    val key: js.Any = js.native
+    val value: js.Any = js.native
+    val onClick: js.UndefOr[js.Any] = js.native
+    val className: js.UndefOr[String] = js.native
   }
+
+  object Props {
+    def apply(
+      value: js.Any,
+      className: Option[String] = None,
+      onClick: js.UndefOr[js.Any] = js.undefined
+    ) =
+      js.Dynamic.literal(
+        key = value, // it's not a typo. Yep, key = value
+        value = value,
+        onClick = onClick,
+        className = className.orUndefined
+      ).asInstanceOf[Props]
+  }
+
+  @JSImport("react-mdl-extra", "Option")
+  @js.native
+  object Component extends JSComponent[Props]
+  def apply(props: Props)(ch: ReactNode) = React.createElement(Component, props, ch)
+}
+
+trait RowGetters[R, ID] {
+  def getId(row: R): ID
+  def getDesc(row: R): String
+  def toJsAny(id: ID): js.Any = id.asInstanceOf[js.Any]
+  def fromJsAny(id: js.Any): ID = id.asInstanceOf[ID]
+}
+
+object Reference {
 
   object SelectField {
 
@@ -72,12 +80,6 @@ object Reference {
     @js.native
     object Component extends JSComponent[Props]
     def apply(props: Props)(ch: ReactNode*) = React.createElement(Component, props, ch: _*)
-  }
-
-  trait RowGetters[R, ID] {
-    def getId(row: R): ID
-    def getDesc(row: R): String
-    def toJsAny(id: ID): js.Any = id.asInstanceOf[js.Any]
   }
 
   case class Props[R, ID](

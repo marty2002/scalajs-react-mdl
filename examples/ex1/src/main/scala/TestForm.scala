@@ -6,9 +6,9 @@ package eldis.mdl.examples.ex1
 
 import eldis.react._
 import eldis.react.mdl.components._
-import eldis.react.mdl.components.Reference.RowGetters
 import eldis.react.vdom._
 import eldis.react.vdom.prefix_<^._
+
 import scalajs.js
 import js.annotation.ScalaJSDefined
 
@@ -36,6 +36,17 @@ class TestForm extends Component[Nothing]("TestForm") {
     RefRow("1", "Test 1"),
     RefRow("2", "Test 2"),
     RefRow("3", "Test 3")
+  )
+
+  case class RefRowInt(id: Int, value: String)
+  implicit val rgInt: RowGetters[RefRowInt, Int] = new RowGetters[RefRowInt, Int] {
+    def getId(r: RefRowInt) = r.id
+    def getDesc(r: RefRowInt) = r.value
+  }
+  val refInt = List(
+    RefRowInt(1, "Test 1"),
+    RefRowInt(2, "Test 2"),
+    RefRowInt(3, "Test 3")
   )
 
   def render() =
@@ -133,6 +144,19 @@ class TestForm extends Component[Nothing]("TestForm") {
             MenuItem(label = "Some Action 1", onClick = Some(() => println("click1"))),
             MenuItem(label = "Some Action 2", disabled = Some(true), onClick = Some(() => println("click2")))
           )
+        )
+      ),
+      <.div(^.className := "form-row")(
+        <.div(^.className := "col-7-em")(Label("MultiSelectField")),
+        <.div(^.className := "colRight")(
+          MultiSelectField(MultiSelectField.Props[RefRowInt, Int](
+            label = "Select values..",
+            ref = refInt,
+            onChange = Some((v) => println(v)),
+            required = Some(true),
+            requiredText = Some("Required field"),
+            value = Some(Seq(1, 3))
+          ))
         )
       ),
       {
