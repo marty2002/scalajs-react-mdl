@@ -1,55 +1,29 @@
-/**
- * Created by maria on 13.02.2017.
- */
 package eldis.react.mdl.components
+
+import eldis.react._
 
 import scalajs.js
 import js.JSConverters._
 import js.annotation.{ JSImport, ScalaJSDefined }
-import eldis.react._
 import eldis.react.mdl._
-
-object Option {
-
-  @js.native
-  trait Props extends js.Any {
-    val key: js.Any = js.native
-    val value: js.Any = js.native
-    val onClick: js.UndefOr[js.Any] = js.native
-    val className: js.UndefOr[String] = js.native
-  }
-
-  object Props {
-    def apply(
-      value: js.Any,
-      className: Option[String] = None,
-      onClick: js.UndefOr[js.Any] = js.undefined
-    ) =
-      js.Dynamic.literal(
-        key = value, // it's not a typo. Yep, key = value
-        value = value,
-        onClick = onClick,
-        className = className.orUndefined
-      ).asInstanceOf[Props]
-  }
-
-  @JSImport("react-mdl-extra", "Option")
-  @js.native
-  object Component extends JSComponent[Props]
-  def apply(props: Props)(ch: ReactNode) = React.createElement(Component, props, ch)
-}
-
-trait RowGetters[R, ID] {
-  def getId(row: R): ID
-  def getDesc(row: R): String
-  def toJsAny(id: ID): js.Any = id.asInstanceOf[js.Any]
-  def fromJsAny(id: js.Any): ID = id.asInstanceOf[ID]
-}
 
 object Reference {
 
-  object SelectField {
+  case class Props[R, ID](
+    label: String,
+    value: Option[ID] = None,
+    ref: Seq[R] = Nil,
+    onChange: Option[ID => Unit] = None,
+    className: Seq[String] = Nil,
+    key: Option[String] = None,
+    style: Option[js.Object] = None
+  )
+  trait PropsImpl[R, ID] {
+    val pr: Props[R, ID]
+    val rg: RowGetters[R, ID]
+  }
 
+  object NativeField {
     @js.native
     trait Props extends CommonProps {
       val label: String = js.native
@@ -58,10 +32,10 @@ object Reference {
     }
 
     object Props {
-      def apply[ID](
+      def apply(
         label: String,
-        value: Option[js.Any] = None,
-        onChange: Option[ID => Unit] = None,
+        value: Option[js.Any],
+        onChange: Option[js.Any => Unit] = None,
         className: Seq[String] = Nil,
         key: Option[String] = None,
         style: Option[js.Object] = None
@@ -82,49 +56,52 @@ object Reference {
     def apply(props: Props)(ch: ReactNode*) = React.createElement(Component, props, ch: _*)
   }
 
-  case class Props[R, ID](
-    className: Seq[String] = Nil,
-    key: Option[String] = None,
-    style: Option[js.Object] = None,
-    label: String,
-    ref: Seq[R],
-    value: Option[ID] = None,
-    onChange: Option[ID => Unit] = None
-  )
-
-  type PropsImpl[R, ID] = (Props[R, ID], RowGetters[R, ID])
-
   @ScalaJSDefined
-  class Reference[R, ID] extends Component[PropsImpl[R, ID]]("Reference") {
+  class NativeFieldWrapper[R, ID] extends Component[PropsImpl[R, ID]]("MultiSelectField.stateful") {
 
     case class State(value: Option[ID])
 
     def initialState: State = State(None)
 
-    def onChange(e: ID): Unit = {
-      this.props match {
-        case (props, _) => {
-          setState(state.copy(value = Some(e)))
-          this.props._1.onChange.map(h => h(e)).getOrElse(Unit)
-        }
-      }
+    def onChange(v: ID): Unit = {
+      setState(State(Some(v)))
+      this.props.pr.onChange.map(h => h(v)).getOrElse(Unit)
     }
 
-    def render() = {
-      val p = this.props
-      val ch = p._1.ref.map(row => Option(Option.Props(value = p._2.toJsAny(p._2.getId(row))))(p._2.getDesc(row)))
+    def render = {
+      val props = this.props.pr
+      val getter = this.props.rg
+      val s = this.state
+      val children = props.ref.map(row => Option(Option.Props(value = getter.toJsAny(getter.getId(row))))(getter.getDesc(row)))
+      val value = s.value.getOrElse(props.value.getOrElse(None)).asInstanceOf[js.Any]
 
-      SelectField(
-        SelectField.Props[ID](
-          label = p._1.label,
-          value = p._1.value.orElse(state.value).map(v => p._2.toJsAny(v)),
-          onChange = Some((e: ID) => onChange(e)),
-          className = p._1.className
+      NativeField(
+        NativeField.Props(
+          label = props.label,
+          value = Some(value),
+          className = props.className,
+          key = props.key,
+          style = props.style,
+          onChange = Some(v => onChange(getter.fromJsAny(v)))
         )
-      )(ch: _*)
+      )(children: _*)
     }
   }
 
-  def apply[R, ID](props: Props[R, ID])(implicit rg: RowGetters[R, ID]) =
-    new Reference[R, ID]()((props, rg))
+  object NativeFieldWrapper {
+    def apply[R, ID](prop: Reference.Props[R, ID], children: ReactNode*)(implicit getters: RowGetters[R, ID]): ReactDOMElement = {
+      val c = js.constructorOf[NativeFieldWrapper[R, ID]]
+      val p = new PropsImpl[R, ID] {
+        val pr = prop
+        val rg = getters
+      }
+
+      val props = implicitly[WrapToNative[PropsImpl[R, ID]]].wrap(p)
+      JSReact.createElement(c, props, children: _*)
+    }
+  }
+
+  def apply[R, ID](prop: Reference.Props[R, ID], children: ReactNode*)(implicit getters: RowGetters[R, ID]): ReactDOMElement = {
+    NativeFieldWrapper(prop, children: _*)(getters)
+  }
 }

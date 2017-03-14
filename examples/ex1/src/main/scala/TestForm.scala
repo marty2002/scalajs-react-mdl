@@ -37,7 +37,6 @@ class TestForm extends Component[Nothing]("TestForm") {
     RefRow("2", "Test 2"),
     RefRow("3", "Test 3")
   )
-
   case class RefRowInt(id: Int, value: String)
   implicit val rgInt: RowGetters[RefRowInt, Int] = new RowGetters[RefRowInt, Int] {
     def getId(r: RefRowInt) = r.id
@@ -135,7 +134,7 @@ class TestForm extends Component[Nothing]("TestForm") {
       ),
       <.div(^.className := "form-row")(
         <.div(^.className := "col-7-em")(Label("Reference")),
-        <.div(^.className := "colRight")(Reference(Reference.Props[RefRow, String](label = "Select value...", ref = ref)))
+        <.div(^.className := "colRight")(Reference(Reference.Props[RefRow, String](label = "Select value...", ref = ref, value = Some("3"))))
       ),
       <.div(^.className := "form-row")(
         <.div(^.className := "col-7-em")(Label("Menu:")),
